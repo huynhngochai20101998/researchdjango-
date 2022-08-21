@@ -4,10 +4,10 @@ from django.db import models
 
 class BaseModel(models.Model):
     class Meta:
-        abstract: True
+        abstract = True
 
     subject = models.CharField(max_length=255, null=False, blank=False, unique=True)
-    image = models.ImageField(upload_to='courses/%Y/%m', default=None)
+    image = models.ImageField(upload_to='courses/static/%Y/%m', null=True, default=None)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     activate = models.BooleanField(default=True)
@@ -45,7 +45,7 @@ class Course(BaseModel):
 class Lesson(BaseModel):
     content = models.TextField(null=True, blank=True)
     courses = models.ForeignKey(Course, on_delete=models.SET_NULL, null=True)
-    tags = models.ManyToManyField("Tag", blank=False)
+    tags = models.ManyToManyField("Tag", blank=True)
 
 
 class Tag(models.Model):
